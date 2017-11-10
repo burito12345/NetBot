@@ -6,6 +6,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboar
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,17 +89,25 @@ public class NetBot extends TelegramLongPollingBot {
 
 
             if (call_data.equals("ping_msg_text")) {
-                String ping = "ping folgt";
-                EditMessageText new_message = new EditMessageText()
-                        .setChatId(chat_idn)
-                        .setMessageId((int) message_id)
-                        .setText(ping);
+
+                String ip = getMsg();
+                String ausgabe = null;
                 try {
-                    editMessageText(new_message);
-                } catch (TelegramApiException e) {
+                    ausgabe = Ping.getPing(ip);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+
+                EditMessageText new_message = new EditMessageText()
+                            .setChatId(chat_idn)
+                            .setMessageId((int) message_id)
+                            .setText(ausgabe);
+                    try {
+                        editMessageText(new_message);
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             if (call_data.equals("whois_msg_text")) {
                 String whois = "whois folgt";
