@@ -126,11 +126,19 @@ public class NetBot extends TelegramLongPollingBot {
                 }
             }
             if (call_data.equals("portscanner_msg_text")) {
+
+                String ip = getMsg();
+
+                PortScanner pc = new PortScanner();
+                pc.scanPort(ip);
+
                 String portscanner = "portscanner folgt!";
+
+
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
-                        .setText(portscanner);
+                        .setText(String.valueOf("Offene Ports bei " + getMsg() + "-> " + pc.getOpenPorts()));
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
