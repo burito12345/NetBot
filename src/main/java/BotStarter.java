@@ -33,7 +33,6 @@ public class BotStarter {
             e.printStackTrace();
         }
 
-
         System.out.println("Bot successfully started!");
 
     }

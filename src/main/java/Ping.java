@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Ping {
 
-    public static String getPing (String ipAddress) throws IOException {
+    public static String getPing(String ipAddress) throws IOException {
         int ping_success = 0;
         int ping_fail = 0;
         long currentTime;
@@ -25,7 +25,7 @@ public class Ping {
             }
         }
 
-       ArrayList<String> ping = new ArrayList<String>();
+        ArrayList<String> ping = new ArrayList<String>();
         ping.add("Host war " + ping_success + " Mal erreichbar, " + ping_fail + " Mal war er NICHT erreichbar.");
         if (ping_success > 0) {
             long time_total = 0;
@@ -36,8 +36,7 @@ public class Ping {
             ping.add("Durchschnittszeit eines Pings: " + time_average + " Milisekunden");
         }
         StringBuilder sb = new StringBuilder();
-        for (String s : ping)
-        {
+        for (String s : ping) {
             sb.append(s);
             sb.append("\t");
         }

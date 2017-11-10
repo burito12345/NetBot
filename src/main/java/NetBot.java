@@ -14,14 +14,13 @@ import java.util.List;
 public class NetBot extends TelegramLongPollingBot {
 
 
+    private String msg = "";
 
-        private String msg = "";
-
-        /**
-         * Wird Ausgeführt wenn der Telegram Bot etwas erhält
-         *
-         * @param update Telegram Update Objetk
-         */
+    /**
+     * Wird Ausgeführt wenn der Telegram Bot etwas erhält
+     *
+     * @param update Telegram Update Objetk
+     */
     public void onUpdateReceived(Update update) {
 
         // Kontrolle ob eine Nachricht & Nachrichtentext gekommen ist
@@ -65,9 +64,7 @@ public class NetBot extends TelegramLongPollingBot {
                 setMsg(command[1]);
                 message.setReplyMarkup(markupInline);
 
-            }
-
-            else {
+            } else {
                 message.setText("Diese Funktion wird nicht unterstüzt.\n " +
                         "Tippen Sie '/start + ip etc.' ");
             }
@@ -99,15 +96,15 @@ public class NetBot extends TelegramLongPollingBot {
                 }
 
                 EditMessageText new_message = new EditMessageText()
-                            .setChatId(chat_idn)
-                            .setMessageId((int) message_id)
-                            .setText(ausgabe);
-                    try {
-                        editMessageText(new_message);
-                    } catch (TelegramApiException e) {
-                        e.printStackTrace();
-                    }
+                        .setChatId(chat_idn)
+                        .setMessageId((int) message_id)
+                        .setText(ausgabe);
+                try {
+                    editMessageText(new_message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
                 }
+            }
 
             if (call_data.equals("whois_msg_text")) {
                 String whois = "whois folgt";
@@ -168,7 +165,7 @@ public class NetBot extends TelegramLongPollingBot {
                 }
             }
             if (call_data.equals("domaintoip_msg_text")) {
-                String domaintoip ="domaintoip folgt";
+                String domaintoip = "domaintoip folgt";
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
@@ -184,7 +181,6 @@ public class NetBot extends TelegramLongPollingBot {
             System.out.println("Tippen Sie /help ein!");
         }
     }
-
 
 
     public String getBotUsername() {
