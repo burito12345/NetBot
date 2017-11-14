@@ -208,6 +208,7 @@ public class NetBot extends TelegramLongPollingBot {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
+
                 }
             }
 
