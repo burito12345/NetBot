@@ -3,7 +3,7 @@
  *
  * @author <PRE>
  * ID        date        description
- * Sebi & Leon     11.10.2017  Neuerstellung
+ * ERMIN     11.10.2017  Neuerstellung
  * </PRE>
  */
 
