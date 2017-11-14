@@ -1,11 +1,15 @@
+import ApiHandler.ApiHandler;
+import org.telegram.telegrambots.api.methods.send.SendLocation;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.api.objects.Location;
 import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
+import java.net.UnknownHostException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +58,7 @@ public class NetBot extends TelegramLongPollingBot {
                 rowInline.add(new InlineKeyboardButton().setText("IPlocation").setCallbackData("iplocation_msg_text"));
                 rowInline.add(new InlineKeyboardButton().setText("Portscanner").setCallbackData("portscanner_msg_text"));
                 rowInline.add(new InlineKeyboardButton().setText("nslookup").setCallbackData("nslookup_msg_text"));
-
+                rowInline.add(new InlineKeyboardButton().setText("DomaintoIP").setCallbackData("domaintoip_msg_text"));
 
                 // Set the keyboard to the markup
                 rowsInline.add(rowInline);
@@ -120,11 +124,33 @@ public class NetBot extends TelegramLongPollingBot {
             }
 
             if (call_data.equals("iplocation_msg_text")) {
-                String iplocation = "iplocation folgt!";
+
+                String ip = getMsg();
+                ApiHandler api = new ApiHandler();
+                String antwort = "";
+
+                for (String str : api.getLocation(ip)) {
+                    System.out.println(str);
+                    antwort = str;
+                }
+
+                String[] splitloc = antwort.split(",", 2);
+                float Breitengrad = Float.parseFloat(splitloc[0]);
+                float Längengrad = Float.parseFloat(splitloc[1]);
+                System.out.println(Breitengrad);
+                System.out.println(Längengrad);
+
+                SendLocation loc = new SendLocation().setLatitude(Breitengrad).setLongitude(Längengrad).setChatId(chat_idn);
+
+                try {
+                    sendLocation(loc);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
-                        .setText(iplocation);
+                        .setText("Hier befindet sich der Standort deiner IP");
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
@@ -136,13 +162,22 @@ public class NetBot extends TelegramLongPollingBot {
                 String ip = getMsg();
 
                 PortScanner pc = new PortScanner();
-                pc.scanPort(ip);
-
 
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
-                        .setMessageId((int) message_id)
-                        .setText(String.valueOf("Offene Ports bei " + getMsg() + "-> " + pc.getOpenPorts()));
+                        .setMessageId((int) message_id);
+
+
+                new_message.setText("Ports werden gescannt. Bitte warten!");
+                try {
+                    editMessageText(new_message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+
+                pc.scanPort(ip);
+
+                new_message.setText(String.valueOf("Offene Ports bei " + getMsg() + "-> " + pc.getOpenPorts()));
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
@@ -151,15 +186,24 @@ public class NetBot extends TelegramLongPollingBot {
             }
 
             if (call_data.equals("nslookup_msg_text")) {
-
-                String nslookup = getMsg();
-
-                Nslookup ns = new Nslookup();
-                ns.performNSLookup(nslookup);
+                String nslookup = "nslookup folgt";
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
-                        .setText(String.valueOf(ns.getInet()));
+                        .setText(nslookup);
+                try {
+                    editMessageText(new_message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (call_data.equals("domaintoip_msg_text")) {
+
+                String domaintoip = "domaintoip folgt";
+                EditMessageText new_message = new EditMessageText()
+                        .setChatId(chat_idn)
+                        .setMessageId((int) message_id)
+                        .setText(domaintoip);
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
@@ -171,6 +215,7 @@ public class NetBot extends TelegramLongPollingBot {
             System.out.println("Tippen Sie /help ein!");
         }
     }
+
 
 
     public String getBotUsername() {
