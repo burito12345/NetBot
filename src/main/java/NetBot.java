@@ -156,10 +156,12 @@ public class NetBot extends TelegramLongPollingBot {
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
                         .setText(String.valueOf(ns.getInet()));
+
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
+
                 }
             }
 
