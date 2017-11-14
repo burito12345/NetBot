@@ -197,20 +197,7 @@ public class NetBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-            if (call_data.equals("domaintoip_msg_text")) {
 
-                String domaintoip = "domaintoip folgt";
-                EditMessageText new_message = new EditMessageText()
-                        .setChatId(chat_idn)
-                        .setMessageId((int) message_id)
-                        .setText(domaintoip);
-                try {
-                    editMessageText(new_message);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-
-                }
-            }
 
         } else {
             System.out.println("Tippen Sie /help ein!");
