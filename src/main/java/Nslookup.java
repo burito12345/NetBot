@@ -30,5 +30,4 @@ public class Nslookup {
 
     public ArrayList<String> getInet(){ return list;}
 
-
 }
