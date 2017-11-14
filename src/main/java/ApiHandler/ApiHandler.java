@@ -17,8 +17,6 @@ public class ApiHandler {
 
 
     private static OkHttpClient client = new OkHttpClient();
-    private String location = "";
-
 
   /*  public static void main(String args[]) {
 
