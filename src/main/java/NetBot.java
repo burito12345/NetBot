@@ -205,6 +205,7 @@ public class NetBot extends TelegramLongPollingBot {
             }
             if (call_data.equals("domain_msg_text")) {
 
+
                 String domain = getMsg();
                 Domain dm = new Domain();
                 dm.performNSLookup(domain);

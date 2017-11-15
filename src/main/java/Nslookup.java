@@ -2,6 +2,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+
 public class Nslookup {
    // private ArrayList<String> list;
     public String erg;
