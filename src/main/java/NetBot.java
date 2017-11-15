@@ -190,6 +190,7 @@ public class NetBot extends TelegramLongPollingBot {
 
                 Nslookup ns = new Nslookup();
                 ns.performNSLookup(nslookup);
+
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
