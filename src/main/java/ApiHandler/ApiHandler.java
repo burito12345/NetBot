@@ -60,7 +60,5 @@ public class ApiHandler {
         return new String[]{
                 netAPI.getLoc()
         };
-
     }
-
 }

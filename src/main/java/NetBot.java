@@ -1,4 +1,5 @@
 import ApiHandler.ApiHandler;
+import ApiHandler.XmlHandler;
 import org.telegram.telegrambots.api.methods.send.SendLocation;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -57,7 +58,7 @@ public class NetBot extends TelegramLongPollingBot {
                 rowInline.add(new InlineKeyboardButton().setText("Whois").setCallbackData("whois_msg_text"));
                 rowInline.add(new InlineKeyboardButton().setText("IPlocation").setCallbackData("iplocation_msg_text"));
                 rowInline.add(new InlineKeyboardButton().setText("Portscanner").setCallbackData("portscanner_msg_text"));
-                rowInline.add(new InlineKeyboardButton().setText("nslookup").setCallbackData("nslookup_msg_text"));
+                rowInline.add(new InlineKeyboardButton().setText("WhoIs").setCallbackData("nslookup_msg_text"));
 
                 // Set the keyboard to the markup
                 rowsInline.add(rowInline);
@@ -111,10 +112,22 @@ public class NetBot extends TelegramLongPollingBot {
 
             if (call_data.equals("whois_msg_text")) {
                 String whois = "whois folgt";
+
+                String link = getMsg();
+
+                String whois_handler[] = new String[0];
+                try {
+                    whois_handler = XmlHandler.getWhoIs(link);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                String whois_ergebniss = "IP-Adresse: " + whois_handler[3] + "\nHost: " + whois_handler[4] + "\nIsp: " + whois_handler[5] + "\nOrg: " + whois_handler[6] + "\nRegion: " + whois_handler[7] + "\nCountrycode: " + whois_handler[8];
+
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
-                        .setText(whois);
+                        .setText(whois_ergebniss);
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
