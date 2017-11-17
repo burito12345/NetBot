@@ -148,6 +148,7 @@ public class NetBot extends TelegramLongPollingBot {
                 float Längengrad = Float.parseFloat(splitloc[1]);
                 System.out.println(Breitengrad);
                 System.out.println(Längengrad);
+                System.out.println(getMsg());
 
                 SendLocation loc = new SendLocation().setLatitude(Breitengrad).setLongitude(Längengrad).setChatId(chat_idn);
 
@@ -211,6 +212,25 @@ public class NetBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
+            if (call_data.equals("domain_msg_text")) {
+
+
+                String domain = getMsg();
+                Domain dm = new Domain();
+                dm.performNSLookup(domain);
+
+                EditMessageText new_message = new EditMessageText()
+                        .setChatId(chat_idn)
+                        .setMessageId((int) message_id)
+                        .setText(String.valueOf(dm.getInet()));
+                try {
+                    editMessageText(new_message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
         } else {
             System.out.println("Tippen Sie /help ein!");
         }
