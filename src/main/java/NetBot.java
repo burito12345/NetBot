@@ -47,7 +47,7 @@ public class NetBot extends TelegramLongPollingBot {
 
 
             //Abfragen nach Kommandos
-            if (command != null && command[0].equals("/start")) {
+            if (command != null && command[0].equals("/ip")) {
                 //message.setText("/echo" + '\n' + "/reverse" + '\n' + "/add" + '\n'
                 //        + "/spam" + '\n' + "/weather");
 
@@ -68,9 +68,12 @@ public class NetBot extends TelegramLongPollingBot {
                 setMsg(command[1]);
                 message.setReplyMarkup(markupInline);
 
-            } else {
-                message.setText("Diese Funktion wird nicht unterstüzt.\n " +
-                        "Tippen Sie '/start + ip etc.' ");
+            } else if (command != null && command[0].equals("/ip")) {
+                message.setText("Tippen Sie '/ip + Domain/IP' ein! \nDann Wählen Sie die Funktion aus, durch einen Klick auf einen Button");
+            }
+
+            else {
+                message.setText("Tippen Sie '/ip + Domain/IP' ein! \nDann Wählen Sie die Funktion aus, durch einen Klick auf einen Button");
             }
 
             //Bevor Nachricht gesendet wird Antwort in Variable speichern
@@ -150,21 +153,32 @@ public class NetBot extends TelegramLongPollingBot {
                 System.out.println(Längengrad);
 
                 SendLocation loc = new SendLocation().setLatitude(Breitengrad).setLongitude(Längengrad).setChatId(chat_idn);
+                Weather wea = new Weather();
+
 
                 try {
                     sendLocation(loc);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-                EditMessageText new_message = new EditMessageText()
-                        .setChatId(chat_idn)
-                        .setMessageId((int) message_id)
-                        .setText("Hier befindet sich der Standort deiner IP");
+                EditMessageText new_message = null;
+                try {
+                    new_message = new EditMessageText()
+                            .setChatId(chat_idn)
+                            .setMessageId((int) message_id)
+                            .setText("Hier befindet sich der Standort ihrer IP\n"
+                                    + "Das Wetter ihrer IP: " + wea.getCurrentWeather(Breitengrad, Längengrad)
+                                    + "\n Die Maximale Temperatuer beträgt: " + wea.getMaxTemp(Breitengrad,Längengrad)
+                                    + "\n Die Minimale Temperatur beträgt: " + wea.getMinTemp(Breitengrad, Längengrad));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
+
             }
             if (call_data.equals("portscanner_msg_text")) {
 

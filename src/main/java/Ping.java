@@ -17,7 +17,7 @@ public class Ping {
 
         for (int i = 0; i < 5; i++) {
             currentTime = System.currentTimeMillis();
-            if (inet.isReachable(5000) == true) {
+            if (inet.isReachable(1000) == true) {
                 ping_success++;
                 time.add(System.currentTimeMillis() - currentTime);
             } else {
