@@ -1,4 +1,5 @@
 import ApiHandler.ApiHandler;
+import ApiHandler.XmlHandler;
 import org.telegram.telegrambots.api.methods.send.SendLocation;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.updatingmessages.EditMessageText;
@@ -111,10 +112,19 @@ public class NetBot extends TelegramLongPollingBot {
 
             if (call_data.equals("whois_msg_text")) {
                 String whois = "whois folgt";
+
+                String amk = getMsg();
+                String whois_ausgabe = null;
+                try {
+                    whois_ausgabe = XmlHandler.getWhoIs(amk);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 EditMessageText new_message = new EditMessageText()
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
-                        .setText(whois);
+                        .setText(whois_ausgabe);
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
@@ -201,13 +211,10 @@ public class NetBot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-
-
         } else {
             System.out.println("Tippen Sie /help ein!");
         }
     }
-
 
 
     public String getBotUsername() {
