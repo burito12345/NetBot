@@ -67,6 +67,7 @@ public class Weather {
             minTemp = 1000;
         }
 
+
         return minTemp;
     }
 

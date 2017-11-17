@@ -22,6 +22,7 @@ public class Ping {
                 time.add(System.currentTimeMillis() - currentTime);
             } else {
                 ping_fail++;
+
             }
         }
 

@@ -114,7 +114,6 @@ public class NetBot extends TelegramLongPollingBot {
             }
 
             if (call_data.equals("whois_msg_text")) {
-                String whois = "whois folgt";
 
                 String amk = getMsg();
                 String whois_ausgabe = null;
