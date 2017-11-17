@@ -58,7 +58,8 @@ public class NetBot extends TelegramLongPollingBot {
                 rowInline.add(new InlineKeyboardButton().setText("Whois").setCallbackData("whois_msg_text"));
                 rowInline.add(new InlineKeyboardButton().setText("IPlocation").setCallbackData("iplocation_msg_text"));
                 rowInline.add(new InlineKeyboardButton().setText("Portscanner").setCallbackData("portscanner_msg_text"));
-                rowInline.add(new InlineKeyboardButton().setText("nslookup").setCallbackData("nslookup_msg_text"));
+                rowInline.add(new InlineKeyboardButton().setText("Nslookup").setCallbackData("nslookup_msg_text"));
+                rowInline.add(new InlineKeyboardButton().setText("Domain").setCallbackData("domain_msg_text"));
 
                 // Set the keyboard to the markup
                 rowsInline.add(rowInline);
@@ -218,6 +219,23 @@ public class NetBot extends TelegramLongPollingBot {
                         .setChatId(chat_idn)
                         .setMessageId((int) message_id)
                         .setText(String.valueOf(ns.getInet()));
+                try {
+                    editMessageText(new_message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (call_data.equals("domain_msg_text")) {
+
+                String nslookup = getMsg();
+
+                Domain domain = new Domain();
+                domain.performNSLookup(nslookup);
+
+                EditMessageText new_message = new EditMessageText()
+                        .setChatId(chat_idn)
+                        .setMessageId((int) message_id)
+                        .setText(String.valueOf(domain.getInet()));
                 try {
                     editMessageText(new_message);
                 } catch (TelegramApiException e) {
