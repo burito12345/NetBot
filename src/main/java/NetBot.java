@@ -71,9 +71,7 @@ public class NetBot extends TelegramLongPollingBot {
 
             } else if (command != null && command[0].equals("/ip")) {
                 message.setText("Tippen Sie '/ip + Domain/IP' ein! \nDann Wählen Sie die Funktion aus, durch einen Klick auf einen Button");
-            }
-
-            else {
+            } else {
                 message.setText("Tippen Sie '/ip + Domain/IP' ein! \nDann Wählen Sie die Funktion aus, durch einen Klick auf einen Button");
             }
 
@@ -141,16 +139,19 @@ public class NetBot extends TelegramLongPollingBot {
                 ApiHandler api = new ApiHandler();
                 String antwort = "";
 
+
                 for (String str : api.getLocation(ip)) {
                     System.out.println(str);
                     antwort = str;
                 }
+
 
                 String[] splitloc = antwort.split(",", 2);
                 float Breitengrad = Float.parseFloat(splitloc[0]);
                 float Längengrad = Float.parseFloat(splitloc[1]);
                 System.out.println(Breitengrad);
                 System.out.println(Längengrad);
+
 
                 SendLocation loc = new SendLocation().setLatitude(Breitengrad).setLongitude(Längengrad).setChatId(chat_idn);
                 Weather wea = new Weather();
@@ -160,6 +161,8 @@ public class NetBot extends TelegramLongPollingBot {
                     sendLocation(loc);
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
+                } catch (NullPointerException e) {
+                    System.out.println("Keine Nachricht");
                 }
                 EditMessageText new_message = null;
                 try {
@@ -168,7 +171,7 @@ public class NetBot extends TelegramLongPollingBot {
                             .setMessageId((int) message_id)
                             .setText("Hier befindet sich der Standort ihrer IP\n"
                                     + "Das Wetter ihrer IP: " + wea.getCurrentWeather(Breitengrad, Längengrad)
-                                    + "\n Die Maximale Temperatuer beträgt: " + wea.getMaxTemp(Breitengrad,Längengrad)
+                                    + "\n Die Maximale Temperatuer beträgt: " + wea.getMaxTemp(Breitengrad, Längengrad)
                                     + "\n Die Minimale Temperatur beträgt: " + wea.getMinTemp(Breitengrad, Längengrad));
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -249,11 +252,11 @@ public class NetBot extends TelegramLongPollingBot {
 
 
     public String getBotUsername() {
-        return "ip_scann_bot";
+        return "htlnetbot";
     }
 
     public String getBotToken() {
-        return "409778950:AAGaPG3OnomG8_skF1TU1ke1G5VBlDCGrlc";
+        return "480278208:AAGOsa-2-JAW49mxve7ytERqOQNycnpR-wQ";
     }
 
     public String getMsg() {
@@ -263,4 +266,6 @@ public class NetBot extends TelegramLongPollingBot {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+
 }

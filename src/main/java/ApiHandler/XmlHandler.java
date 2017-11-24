@@ -15,9 +15,8 @@ public class XmlHandler {
                 .url(url)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
-        }
+        Response response = client.newCall(request).execute();
+        return response.body().string();
     }
 
     public static String getWhoIs(String link) throws IOException {
@@ -36,7 +35,7 @@ public class XmlHandler {
 
     public static String getString(String[] lines) {
 
-        String ausgabe = "IP-Adresse: " + lines[3] + "\nDomain: " + "\nOrganisation: " + lines[5];
+        String ausgabe = "IP-Adresse: " + lines[3] + "\nDomain: " + lines[4] + "\nOrganisation: " + lines[5];
         System.out.println(ausgabe);
 
         return ausgabe;

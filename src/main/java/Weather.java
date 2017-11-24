@@ -6,9 +6,6 @@ import org.json.JSONException;
 import java.io.IOException;
 
 
-/**
- * Created by Kainz Sebastian on 09.10.2017.
- */
 public class Weather {
 
     //Instanz von OpenWeatherMap erstellen, lib durch pom.xml eingefügt
@@ -26,6 +23,7 @@ public class Weather {
         CurrentWeather cwd = owm.currentWeatherByCoordinates(Breitengrad,Längengrad);
 
         String current = cwd.getWeatherInstance(0).getWeatherDescription();
+
 
         return current;
     }
